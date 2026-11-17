@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fluente – Inglês do Canadá & Francês</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fbf6f2;--fg:#231815;--card:#fff;--mut:#7a6b66;--line:#eadfd9;--p:#c8102e;--pf:#fff;--s:#1f4d3a;--ok:#1f8a4c;--bad:#c0392b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-lang=fr]{--bg:#f3f6fd;--line:#dce3f2;--mut:#5c6783;--p:#1d3f8f;--s:#c8102e;--fg:#151b2e}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]),:root[data-theme="dark"]{--bg:#17130f;--fg:#f4ece8;--card:#241d19;--mut:#b3a39d;--line:#3a2f2a;--p:#ff4a5e;--s:#6fd0a0}
+:root[data-lang=fr]:not([data-theme="light"]){--bg:#10141f;--card:#192033;--line:#2a3550;--p:#7da2ff;--s:#ff6b7d;--mut:#a3aecb}}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--fg);font:16px/1.5 "Bricolage Grotesque",system-ui,sans-serif}
+main{max-width:760px;margin:0 auto;padding:16px}
+h1,h2,h3{margin:0 0 8px;line-height:1.2}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:12px 0}
+button,input{font:inherit}
+button{cursor:pointer;border:0;border-radius:12px;padding:10px 16px;background:var(--p);color:var(--pf);font-weight:600;transition:transform .12s}
+button:hover{transform:translateY(-2px)}button:active{transform:scale(.97)}
+button:focus-visible,input:focus-visible{outline:3px solid var(--s);outline-offset:2px}
+button.g{background:transparent;color:var(--fg);border:1.5px solid var(--line)}
+button.on{background:var(--s);color:#fff}
+button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+input{width:100%;padding:11px 12px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);color:var(--fg);margin:6px 0 10px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.sp{justify-content:space-between}
+.mut{color:var(--mut);font-size:14px}
+.bar{height:10px;border-radius:9px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;background:var(--p);transition:width .5s}
+.hero{background:var(--p);color:var(--pf);border-radius:20px;padding:20px;margin:12px 0}
+.hero .mut{color:inherit;opacity:.85}
+.lv{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center}
+.pill{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;font-weight:800;font-size:20px;background:var(--s);color:#fff}
+.lv.lock{opacity:.5}
+.opt{display:block;width:100%;text-align:left;margin:6px 0;background:var(--card);color:var(--fg);border:1.5px solid var(--line)}
+.opt.ok{background:var(--ok);color:#fff;border-color:var(--ok)}.opt.no{background:var(--bad);color:#fff;border-color:var(--bad)}
+.big{font-size:22px;font-weight:600}
+.msg{min-height:24px;font-weight:600}.msg.ok{color:var(--ok)}.msg.no{color:var(--bad)}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:8px 0}
+.bd{display:inline-flex;flex-direction:column;align-items:center;width:92px;text-align:center;font-size:12px;margin:6px;opacity:.35}.bd.got{opacity:1}.bd b{font-size:34px}
+.pop{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--s);color:#fff;padding:12px 18px;border-radius:14px;font-weight:600;z-index:9;animation:up .3s}
+@keyframes up{from{transform:translate(-50%,20px);opacity:0}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<script>
+const $=s=>document.querySelector(s), esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const LV=["A1","A2","B1","B2","C1","C2"];
+const LD={A1:"Iniciante · frases do dia a dia e necessidades imediatas",A2:"Básico · tarefas simples e rotina",B1:"Intermediário · viagem, trabalho e experiências",B2:"Independente · conversa espontânea e opiniões",C1:"Avançado · textos exigentes, contexto profissional",C2:"Domínio pleno · precisão e naturalidade"};
+const LG={en:{n:"Inglês",sub:"Canadá",f:"🍁",loc:"en-CA"},fr:{n:"Francês",sub:"França",f:"🥐",loc:"fr-FR"}};
+// pt|alvo ~ ...
+const D={en:{
+A1:"Olá, meu nome é Bruno.|Hello, my name is Bruno.~Eu moro em Toronto.|I live in Toronto.~Onde fica o banheiro?|Where is the bathroom?~Quanto custa isso?|How much is this?~Obrigado, até logo!|Thank you, see you later!",
+A2:"Quero um café com leite, por favor.|I would like a coffee with milk, please.~Preciso de um cartão de transporte.|I need a transit card.~A que horas o ônibus chega?|What time does the bus arrive?~Estou procurando um apartamento.|I am looking for an apartment.~Está muito frio hoje.|It is very cold today.",
+B1:"Gostaria de abrir uma conta bancária.|I would like to open a bank account.~Tenho experiência em atendimento ao cliente.|I have experience in customer service.~Você pode falar mais devagar?|Can you speak more slowly?~Eu me mudei para o Canadá no ano passado.|I moved to Canada last year.~Preciso marcar uma consulta médica.|I need to book a doctor's appointment.",
+B2:"Estou me candidatando a uma vaga de analista.|I am applying for an analyst position.~Na minha opinião, o inverno é a melhor estação.|In my opinion, winter is the best season.~Se eu tivesse mais tempo, estudaria todos os dias.|If I had more time, I would study every day.~Você poderia explicar como funciona o seguro-saúde?|Could you explain how health insurance works?~Estou me adaptando bem à cultura canadense.|I am adapting well to Canadian culture.",
+C1:"Embora o aluguel seja caro, a qualidade de vida compensa.|Although the rent is expensive, the quality of life makes up for it.~Gostaria de negociar as condições do contrato.|I would like to negotiate the terms of the contract.~Isso depende de como a política de imigração evoluirá.|That depends on how immigration policy evolves.~Sinto que meu inglês melhorou significativamente.|I feel that my English has improved significantly.~Preciso que você confirme os prazos até sexta-feira.|I need you to confirm the deadlines by Friday.",
+C2:"Dificilmente teríamos chegado tão longe sem esse apoio.|We would hardly have come this far without that support.~Ele contornou a questão com elegância admirável.|He sidestepped the issue with admirable elegance.~Ainda que discordemos, respeito profundamente seu argumento.|Even if we disagree, I deeply respect your argument.~O que importa não é o destino, mas o que aprendemos no caminho.|What matters is not the destination, but what we learn along the way.~Quem diria que eu me sentiria em casa tão longe de casa?|Who would have thought I would feel at home so far from home?"},
+fr:{
+A1:"Olá, meu nome é Bruno.|Bonjour, je m'appelle Bruno.~Eu moro em Paris.|J'habite à Paris.~Onde fica o banheiro?|Où sont les toilettes ?~Quanto custa isso?|C'est combien ?~Obrigado, até logo!|Merci, à bientôt !",
+A2:"Quero um café com leite, por favor.|Je voudrais un café au lait, s'il vous plaît.~Preciso de um bilhete de metrô.|J'ai besoin d'un ticket de métro.~A que horas o trem chega?|À quelle heure arrive le train ?~Estou procurando uma padaria.|Je cherche une boulangerie.~Está muito frio hoje.|Il fait très froid aujourd'hui.",
+B1:"Gostaria de abrir uma conta bancária.|Je voudrais ouvrir un compte bancaire.~Tenho experiência em atendimento ao cliente.|J'ai de l'expérience dans le service client.~Você pode falar mais devagar?|Pouvez-vous parler plus lentement ?~Eu me mudei para o Canadá no ano passado.|J'ai déménagé au Canada l'année dernière.~Preciso marcar uma consulta médica.|Je dois prendre rendez-vous chez le médecin.",
+B2:"Estou me candidatando a uma vaga de analista.|Je postule pour un poste d'analyste.~Na minha opinião, o inverno é a melhor estação.|À mon avis, l'hiver est la meilleure saison.~Se eu tivesse mais tempo, estudaria todos os dias.|Si j'avais plus de temps, j'étudierais tous les jours.~Você poderia explicar como funciona o seguro-saúde?|Pourriez-vous expliquer comment fonctionne l'assurance maladie ?~Estou me adaptando bem à cultura quebequense.|Je m'adapte bien à la culture québécoise.",
+C1:"Embora o aluguel seja caro, a qualidade de vida compensa.|Bien que le loyer soit cher, la qualité de vie en vaut la peine.~Gostaria de negociar as condições do contrato.|Je voudrais négocier les conditions du contrat.~Isso depende de como a política de imigração evoluirá.|Cela dépendra de l'évolution de la politique d'immigration.~Sinto que meu francês melhorou muito.|Je sens que mon français s'est beaucoup amélioré.~Preciso que você confirme os prazos até sexta-feira.|J'ai besoin que vous confirmiez les délais d'ici vendredi.",
+C2:"Dificilmente teríamos chegado tão longe sem esse apoio.|Nous n'aurions guère pu aller si loin sans ce soutien.~Ele contornou a questão com elegância admirável.|Il a esquivé la question avec une élégance admirable.~Ainda que discordemos, respeito profundamente seu argumento.|Même si nous divergeons, je respecte profondément votre argument.~O que importa não é o destino, mas o que aprendemos no caminho.|Ce qui compte, ce n'est pas la destination, mais ce qu'on apprend en chemin.~Quem diria que eu me sentiria em casa tão longe de casa?|Qui aurait cru que je me sentirais chez moi si loin de chez moi ?"}};
+const P=(g,l)=>D[g][l].split("~").map(x=>{const[a,b]=x.split("|");return{pt:a,t:b}});
+const BG=[["🌱","Primeiro passo",s=>s.done.length>=1],["⚡","100 XP",s=>s.xp>=100],["🔥","3 dias seguidos",s=>s.streak>=3],["🎯","30 exercícios",s=>s.done.length>=30],["🏔️","500 XP",s=>s.xp>=500],["🍁","Nível A1 inglês",s=>pct(s,"en","A1")>=1],["🗼","Nível A1 francês",s=>pct(s,"fr","A1")>=1],["🏆","Nível B1 em algum idioma",s=>["en","fr"].some(g=>pct(s,g,"B1")>=1)]];
+const pct=(s,g,l)=>s.done.filter(k=>k.startsWith(g+l+":")).length/15;
+const unlocked=(s,g,i)=>i==0||pct(s,g,LV[i-1])>=0.7;
+const curLevel=(s,g)=>{let i=0;while(i<5&&pct(s,g,LV[i])>=0.7)i++;return LV[i]};
+let db=null,me=null,view="learn",ex=null,lastLang="en";
+const ls={g:k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},s:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const hash=async(n,p)=>{const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode("fluente:"+n.toLowerCase()+":"+p));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")};
+const blank=()=>({xp:0,streak:0,last:"",done:[],lang:"en"});
+async function getU(n){n=n.toLowerCase();if(db){try{const d=await db.collection("users").doc(n).get();return d.exists?d.data():null}catch(e){}}return ls.g("u:"+n)}
+async function putU(u){const n=u.name.toLowerCase();if(db){try{await db.collection("users").doc(n).set(u);return}catch(e){}}ls.s("u:"+n,u)}
+async function boot(){
+ try{const c=await window.claude.use("db");db=c}catch(e){}
+ for(const[n,r]of [["Bruno","master"],["Thais","user"]]){if(!await getU(n))await putU({name:n,hash:await hash(n,"Fab212014"),role:r,status:"active",st:blank()})}
+ const sn=ls.g("session");if(sn){const u=await getU(sn);if(u&&u.status=="active"){me=u}}
+ render();
+}
+function toast(t){const e=document.createElement("div");e.className="pop";e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),2600)}
+function render(){
+ if(!me){loginView();return}
+ document.documentElement.dataset.lang=me.st.lang;
+ const s=me.st,g=s.lang;
+ let h=`<div class="nav row sp"><div class="row"><b>${LG[g].f} Fluente</b><span class="mut">${esc(me.name)}</span></div><div class="row"><span title="XP">⭐ ${s.xp}</span><span title="Sequência">🔥 ${s.streak}</span><button class="g" onclick="logout()">Sair</button></div></div>
+ <div class="row"><button class="${view=="learn"?"on":"g"}" onclick="go('learn')">Aprender</button><button class="${view=="rew"?"on":"g"}" onclick="go('rew')">Prêmios</button>${me.role=="master"?`<button class="${view=="box"?"on":"g"}" onclick="go('box')">📬 Caixa postal</button>`:""}<button class="${view=="acc"?"on":"g"}" onclick="go('acc')">Conta</button></div>`;
+ $("#app").innerHTML=h+`<div id="v"></div>`;
+ ({learn:learnView,rew:rewView,box:boxView,acc:accView,ex:exView})[view]();
+}
+const go=v=>{view=v;render()};
+function loginView(mode){
+ const reg=mode=="reg";
+ $("#app").innerHTML=`<div class="hero" style="margin-top:40px"><h1>🍁 Fluente 🥐</h1><p style="margin:0">Inglês do Canadá e Francês da França: fale, escute e escreva do A1 ao C2.</p></div>
+ <div class="card"><h2>${reg?"Pedir acesso":"Entrar"}</h2>
+ <label>Nome<input id="n" autocomplete="username" maxlength="20"></label>
+ <label>Senha<input id="p" type="password" autocomplete="${reg?"new-password":"current-password"}"></label>
+ <div class="msg no" id="m"></div>
+ <div class="row"><button onclick="${reg?"register()":"login()"}">${reg?"Enviar solicitação":"Entrar"}</button><button class="g" onclick="loginView('${reg?"":"reg"}')">${reg?"Já tenho acesso":"Criar meu acesso"}</button></div>
+ ${reg?'<p class="mut">Sua solicitação chega na caixa postal do Bruno, que precisa aprovar.</p>':""}</div>`;
+ $("#p").addEventListener("keydown",e=>{if(e.key=="Enter")(reg?register:login)()});
+}
+async function login(){
+ const n=$("#n").value.trim(),p=$("#p").value,m=$("#m");
+ const u=n&&await getU(n);
+ if(!u||u.hash!=await hash(n,p)){m.textContent="Nome ou senha incorretos.";return}
+ if(u.status=="pending"){m.textContent="Seu acesso ainda aguarda aprovação do Bruno.";return}
+ me=u;ls.s("session",u.name);view="learn";render();
+}
+async function register(){
+ const n=$("#n").value.trim(),p=$("#p").value,m=$("#m");
+ if(!/^[\p{L}0-9_ ]{2,20}$/u.test(n)){m.textContent="Use 2 a 20 letras ou números no nome.";return}
+ if(p.length<6){m.textContent="A senha precisa de 6 caracteres ou mais.";return}
+ if(await getU(n)){m.textContent="Esse nome já existe. Escolha outro.";return}
+ await putU({name:n,hash:await hash(n,p),role:"user",status:"pending",st:blank()});
+ m.className="msg ok";m.textContent="Solicitação enviada! Aguarde o Bruno aprovar.";
+}
+function logout(){me=null;ls.s("session",null);loginView()}
+async function save(){await putU(me)}
+function learnView(){
+ const s=me.st,g=s.lang,cl=curLevel(s,g);
+ let h=`<div class="row" style="margin:12px 0">${["en","fr"].map(k=>`<button class="${g==k?"on":"g"}" onclick="setLang('${k}')">${LG[k].f} ${LG[k].n} · ${LG[k].sub}</button>`).join("")}</div>
+ <div class="hero"><div class="mut">Seu nível em ${LG[g].n}</div><h1 style="font-size:44px">${cl}</h1><p style="margin:0">${LD[cl]}</p></div>`;
+ LV.forEach((l,i)=>{const p=Math.round(pct(s,g,l)*100),ok=unlocked(s,g,i);
+  h+=`<div class="card lv ${ok?"":"lock"}"><div class="pill">${l}</div><div><b>${LD[l].split(" · ")[0]}</b><div class="mut">${LD[l].split(" · ")[1]}</div><div class="bar" style="margin-top:6px"><i style="width:${p}%"></i></div></div><button ${ok?"":"disabled"} onclick="start('${l}')">${ok?(p?p+"%":"Começar"):"🔒"}</button></div>`});
+ h+=`<p class="mut">Complete 70% de um nível para liberar o próximo. Cada frase tem 3 treinos: escuta, fala e escrita.</p>`;
+ $("#v").innerHTML=h;
+}
+async function setLang(k){me.st.lang=k;await save();render()}
+function start(l){
+ const g=me.st.lang,ps=P(g,l),q=[];
+ ps.forEach((p,i)=>["l","s","w"].forEach(m=>{if(!me.st.done.includes(`${g}${l}:${i}${m}`))q.push({i,m,p})}));
+ ex={g,l,q:q.length?q:ps.flatMap((p,i)=>["l","s","w"].map(m=>({i,m,p,again:1}))),n:0,ps};view="ex";render();
+}
+const norm=t=>t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[’]/g,"'").replace(/[^a-z0-9' ]/g," ").replace(/\s+/g," ").trim();
+function say(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang=LG[ex.g].loc;u.rate=.9;speechSynthesis.speak(u)}catch(e){}}
+function exView(){
+ if(ex.n>=ex.q.length){view="learn";render();return}
+ const c=ex.q[ex.n],tot=ex.q.length,V=$("#v");
+ let h=`<div class="row sp" style="margin:12px 0"><button class="g" onclick="go('learn')">← Níveis</button><span class="mut">${ex.l} · ${ex.n+1}/${tot}</span></div><div class="bar"><i style="width:${ex.n/tot*100}%"></i></div><div class="card">`;
+ if(c.m=="l"){
+  const pool=ex.ps.filter(x=>x.pt!=c.p.pt).sort(()=>Math.random()-.5).slice(0,2).concat(c.p).sort(()=>Math.random()-.5);
+  h+=`<h3>👂 Escute e escolha o significado</h3><button onclick="say(ex.q[ex.n].p.t)">🔊 Ouvir</button> <button class="g" onclick="slow()">🐢 Devagar</button>`+pool.map(o=>`<button class="opt" onclick="pick(this,${o.pt==c.p.pt})">${esc(o.pt)}</button>`).join("");
+  setTimeout(()=>say(c.p.t),300);
+ }else if(c.m=="s"){
+  h+=`<h3>🎤 Fale em voz alta</h3><p class="big">${esc(c.p.t)}</p><p class="mut">${esc(c.p.pt)}</p><div class="row"><button onclick="say(ex.q[ex.n].p.t)">🔊 Ouvir modelo</button><button onclick="rec()">🎙️ Gravar</button></div><div class="msg" id="fb"></div><div class="row"><button class="g" onclick="done(true)">Consegui falar</button><button class="g" onclick="done(false)">Preciso repetir</button></div>`;
+ }else{
+  h+=`<h3>✍️ Escreva em ${LG[ex.g].n}</h3><p class="big">${esc(c.p.pt)}</p><input id="w" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Digite a frase"><div class="row"><button onclick="chk()">Verificar</button><button class="g" onclick="alert(ex.q[ex.n].p.t)">Dica</button></div>`;
+ }
+ h+=`<div class="msg" id="r"></div></div>`;V.innerHTML=h;
+ const w=$("#w");if(w){w.focus();w.addEventListener("keydown",e=>{if(e.key=="Enter")chk()})}
+}
+function slow(){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(ex.q[ex.n].p.t);u.lang=LG[ex.g].loc;u.rate=.55;speechSynthesis.speak(u)}catch(e){}}
+function pick(b,ok){document.querySelectorAll(".opt").forEach(x=>x.disabled=true);b.classList.add(ok?"ok":"no");done(ok)}
+function chk(){const c=ex.q[ex.n],a=$("#w").value;if(!a.trim())return;
+ if(norm(a)==norm(c.p.t)){const exact=a.trim()==c.p.t;done(true,exact?"":"Certo! Atenção à acentuação/pontuação: "+c.p.t)}
+ else done(false,"Resposta: "+c.p.t)}
+function rec(){
+ const R=window.SpeechRecognition||window.webkitSpeechRecognition,fb=$("#fb");
+ if(!R){fb.textContent="Seu navegador não reconhece voz. Use os botões abaixo.";return}
+ const r=new R();r.lang=LG[ex.g].loc;fb.textContent="Ouvindo…";
+ r.onresult=e=>{const h=norm(e.results[0][0].transcript).split(" "),t=norm(ex.q[ex.n].p.t).split(" "),m=t.filter(w=>h.includes(w)).length/t.length;
+  fb.className="msg "+(m>=.7?"ok":"no");fb.textContent=m>=.7?`Ótimo! ${Math.round(m*100)}% de acerto.`:`${Math.round(m*100)}% — ouvi: "${h.join(" ")}". Tente de novo.`;if(m>=.7)done(true)};
+ r.onerror=()=>{fb.textContent="Não consegui ouvir. Verifique o microfone."};
+ try{r.start()}catch(e){}
+}
+async function done(ok,note){
+ const c=ex.q[ex.n],s=me.st,r=$("#r");
+ if(r){r.className="msg "+(ok?"ok":"no");r.textContent=ok?(note||"✅ Correto! +10 XP"):("❌ "+(note||"Vamos revisar."))}
+ if(ok&&!c.again){const k=`${ex.g}${ex.l}:${c.i}${c.m}`;if(!s.done.includes(k))s.done.push(k);s.xp+=10;
+  const t=new Date().toISOString().slice(0,10);if(s.last!=t){const y=new Date(Date.now()-864e5).toISOString().slice(0,10);s.streak=s.last==y?s.streak+1:1;s.last=t}
+  const before=me.badges||[];me.badges=BG.filter(b=>b[2](s)).map(b=>b[1]);me.badges.filter(x=>!before.includes(x)).forEach(x=>toast("🏅 Nova conquista: "+x));
+  await save()}
+ else if(ok&&c.again){s.xp+=2;await save()}
+ else ex.q.push(c);
+ setTimeout(()=>{ex.n++;if(ex.n>=ex.q.length){toast("🎉 Sessão concluída!");view="learn"}render()},ok?900:1800);
+}
+function rewView(){
+ const s=me.st;
+ $("#v").innerHTML=`<div class="hero"><h2>⭐ ${s.xp} XP</h2><p style="margin:0">🔥 Sequência: ${s.streak} dia(s) · ${s.done.length} exercícios concluídos</p></div><div class="card"><h3>Conquistas</h3>${BG.map(b=>`<span class="bd ${b[2](s)?"got":""}"><b>${b[0]}</b>${b[1]}</span>`).join("")}</div>
+ <div class="card"><h3>Progresso por idioma</h3>${["en","fr"].map(g=>`<p><b>${LG[g].f} ${LG[g].n}</b> · nível ${curLevel(s,g)}</p>`+LV.map(l=>`<div class="row"><span style="width:28px">${l}</span><div class="bar" style="flex:1"><i style="width:${pct(s,g,l)*100}%"></i></div></div>`).join("")).join("")}</div>`;
+}
+async function boxView(){
+ $("#v").innerHTML=`<div class="card"><h3>📬 Solicitações de acesso</h3><div id="lst" class="mut">Carregando…</div></div>`;
+ let items=[];
+ if(db){try{const q=await db.collection("users").where("status","==","pending").get();items=q.docs.map(d=>d.data())}catch(e){}}
+ else{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k.startsWith("u:")){const u=ls.g(k);if(u&&u.status=="pending")items.push(u)}}}
+ $("#lst").innerHTML=items.length?items.map(u=>`<div class="row sp" style="margin:8px 0"><b>${esc(u.name)}</b><span class="row"><button onclick="decide('${esc(u.name)}',1)">Aceitar</button><button class="g" onclick="decide('${esc(u.name)}',0)">Recusar</button></span></div>`).join(""):"Nenhuma solicitação pendente.";
+}
+async function decide(n,ok){
+ const u=await getU(n);if(!u)return;
+ if(ok){u.status="active";await putU(u);toast("Acesso aprovado: "+n)}
+ else if(db){try{await db.collection("users").doc(n.toLowerCase()).delete()}catch(e){}}else localStorage.removeItem("u:"+n.toLowerCase());
+ boxView();
+}
+function accView(){
+ $("#v").innerHTML=`<div class="card"><h3>Trocar senha</h3><label>Senha atual<input id="a" type="password" autocomplete="current-password"></label><label>Nova senha<input id="b" type="password" autocomplete="new-password"></label><div class="msg" id="m"></div><button onclick="chpw()">Salvar nova senha</button></div>`;
+}
+async function chpw(){
+ const m=$("#m"),a=$("#a").value,b=$("#b").value;
+ if(await hash(me.name,a)!=me.hash){m.className="msg no";m.textContent="Senha atual incorreta.";return}
+ if(b.length<6){m.className="msg no";m.textContent="A nova senha precisa de 6 caracteres ou mais.";return}
+ me.hash=await hash(me.name,b);await save();m.className="msg ok";m.textContent="Senha alterada com sucesso!";
+}
+boot();
+</script>
+</body>
+</html>
